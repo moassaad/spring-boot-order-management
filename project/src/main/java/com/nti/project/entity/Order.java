@@ -18,5 +18,4 @@ public class Order {
     private Long productId;
     private double quantity;
     private LocalDate orderDate;
-
 }
