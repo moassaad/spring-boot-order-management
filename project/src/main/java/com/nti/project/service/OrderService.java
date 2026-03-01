@@ -18,14 +18,23 @@ public class OrderService {
 //        this.orderRepository = orderRepository;
 //    }
 
-    public Order save(OrderRequest orderRequest){
-        var order = new Order();
+    public Order saveAnyOrder(Order order, OrderRequest orderRequest){
         order.setCustomerId(orderRequest.getCustomerId());
         order.setProductId(orderRequest.getProductId());
         order.setQuantity(orderRequest.getQuantity());
         order.setOrderDate(orderRequest.getDueDate());
 
         return orderRepository.save(order);
+    }
+    public Order save(OrderRequest orderRequest){
+        return saveAnyOrder(new Order(), orderRequest);
+//        var order = new Order();
+//        order.setCustomerId(orderRequest.getCustomerId());
+//        order.setProductId(orderRequest.getProductId());
+//        order.setQuantity(orderRequest.getQuantity());
+//        order.setOrderDate(orderRequest.getDueDate());
+//
+//        return orderRepository.save(order);
     }
 
     public List<Order> getAllOrders() {
@@ -37,4 +46,16 @@ public class OrderService {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
     }
+
+    public Order updateOrder(String id, OrderRequest orderRequest) {
+        Order order = this.getOrderById(id);
+        return saveAnyOrder(order, orderRequest);
+    }
+
+    public Order deleteOrder(String id) {
+        Order order = this.getOrderById(id);
+        orderRepository.delete(order);
+        return order;
+    }
+
 }

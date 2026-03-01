@@ -22,41 +22,25 @@ public class HomeController {
     }
 
 
-
-
     @GetMapping("/order/{id}")
-    public Order hello(@PathVariable String id){
+    public Order findOrderById(@PathVariable String id){
 
        return orderService.getOrderById(id);
     }
-//    @GetMapping("/order")
-//    public List<OrderResponse> newOrder(){
-//        List<OrderResponse> listOrders = new ArrayList<>();
-//        OrderResponse order = new OrderResponse();
-//        List<OrderItems> items = new ArrayList<>();
-//
-//        items.add(new OrderItems(1,10));
-//        items.add(new OrderItems(5,2));
-//        items.add(new OrderItems(4,1));
-//        items.add(new OrderItems(8,4));
-//
-//        order.setOrderId(1);
-//        order.setCustomerId(1);
-//        order.setItems(items);
-//
-//        for(int i =0; i<11;i++){
-//            listOrders.add(order) ;
-//        }
-//        return listOrders;
-//    }
-//    @PostMapping("/orders")
-//public OrderRequest  newOrder(@RequestBody OrderRequest orderRequest){
-//        return orderRequest;
-//
-//    }
+
     @PostMapping("/order")
     public ResponseEntity<?> newOrder(@RequestBody @Valid OrderRequest orderRequest){
 //        orderService.save(orderRequest);
         return new ResponseEntity<>(orderService.save(orderRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("/order/{id}")
+    public Order updateOrder(@PathVariable String id, @RequestBody @Valid OrderRequest orderRequest){
+        return orderService.updateOrder(id, orderRequest);
+    }
+
+    @DeleteMapping("/order/{id}")
+    public Order updateOrder(@PathVariable String id){
+        return orderService.deleteOrder(id);
     }
 }
